@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -12,20 +13,27 @@ export default function SignupPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const router = useRouter(); // ✅ inside component
 
-    try {
-      const res = await axios.post("/api/signup", form);
-      toast.success(res.data.message);
-      setForm({ username: "", email: "", password: "" });
-    } catch (err: any) {
-      toast.error(err.response?.data?.error || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const res = await axios.post("/api/signup", form);
+    toast.success(res.data.message);
+
+    setForm({ username: "", email: "", password: "" });
+
+    // ✅ redirect to home after signup
+    router.push("/");
+  } catch (err: any) {
+    toast.error(err.response?.data?.error || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -68,7 +76,7 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition disabled:opacity-50"
         >
           {loading ? "Signing up..." : "Sign Up"}
         </button>
