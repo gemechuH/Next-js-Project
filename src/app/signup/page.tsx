@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignupPage() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -80,7 +81,9 @@ const handleSubmit = async (e: React.FormEvent) => {
         >
           {loading ? "Signing up..." : "Sign Up"}
         </button>
+        <span className="text-black">Already have an account?<Link href="/login" className="text-blue-600 hover:underline"> Log in</Link></span>
       </form>
+      
     </div>
   );
 }
