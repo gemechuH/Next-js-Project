@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { connectDB } from "@/lib/dbconfig";
 import User from "@/models/User";
+import jwt from "jsonwebtoken"
 
 export async function POST(req: Request) {
   try {
@@ -18,13 +19,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 400 });
     }
 
-    // Create JWT
-    // const token = jwt.sign(
-    //   { id: user._id, email: user.email },
-    //   process.env.JWT_SECRET!,
-    //   { expiresIn: "1d" }
-    // );
-
+    
+//create token data
+ const tokenData ={
+  id: user._id,
+  username: user.username,
+  email: user.email
+ }
+// create token
+const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1h" })
     return NextResponse.json({
       message: "Login successful",
     //   token,
