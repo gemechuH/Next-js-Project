@@ -27,12 +27,10 @@ export async function POST(req: Request) {
   email: user.email
  }
 // create token
-const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1h" })
-    return NextResponse.json({
-      message: "Login successful",
-    //   token,
-      user: { id: user._id, username: user.username, email: user.email },
-    });
+const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1d" })
+   const Response = NextResponse.json({ message: "Login successful" }, { status: 200 });
+   Response.cookies.set("token", token, { httpOnly: true});
+   return Response;
   } catch (err) {
     console.error(err);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
