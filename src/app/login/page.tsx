@@ -33,7 +33,7 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.message);
 
       toast.success("Login successful");
-      localStorage.setItem("token", data.token);
+      
       console.log("User:", data.user);
       router.push("/");
     } catch (err: any) {

@@ -1,19 +1,23 @@
-"use client"
+"use client";
+
 import axios from "axios";
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-export default function Home() {
-  const router= useRouter()
-  const handleLogout = async()=>{
+
+export default function LogoutButton() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
     try {
-      await axios.post ("/api/logout")
-      toast.success("logged out successfully")
-      router.push("/login")
-    } catch (error) {
-      toast.error("logout failed, try again later")
-      
+      await axios.post("/api/logout", {}, { withCredentials: true }); // important if cookie is HTTP-only
+      localStorage.removeItem("token"); // clear from localStorage too
+      toast.success("You have been logged out!");
+      router.push("/login");
+    } catch {
+      toast.error("Logout failed");
     }
-  }
+  };
+
   return (
     <button
       onClick={handleLogout}
