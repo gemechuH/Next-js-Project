@@ -22,7 +22,9 @@ export async function sendEmail(to: string, subject: string, html: string, text?
     host: SMTP_HOST,
     port: SMTP_PORT,
     auth: { user: SMTP_USER, pass: SMTP_PASS },
-    secure: SMTP_PORT === 465, // true for 465
+    secure: SMTP_PORT === 535, 
+    
+    
   });
 
   await transporter.sendMail({

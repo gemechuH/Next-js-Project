@@ -68,6 +68,7 @@ export default function LoginPage() {
           className="border w-full p-2 rounded mb-3"
           required
         />
+        <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline mb-4 inline-block">Forgot Password?</Link>
         <button
           type="submit"
           disabled={loading}

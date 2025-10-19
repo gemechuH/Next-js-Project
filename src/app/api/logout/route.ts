@@ -14,7 +14,7 @@ export async function POST() {
       path: "/", // must match the original cookie path
     });
 
-    
+    return res; // ✅ this line is required
   } catch (error: any) {
     return NextResponse.json(
       { error: "Logout failed, try again later" },
@@ -22,4 +22,3 @@ export async function POST() {
     );
   }
 }
- 
